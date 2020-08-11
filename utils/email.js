@@ -34,7 +34,7 @@ module.exports = class Email {
 
   async send(templete, subject) {
     //send actual mails
-    const html = pug.renderFile(`{__dirname}/../views/email/${templete}.pug`, {
+    const html = pug.renderFile(`${__dirname}/../views/email/${templete}.pug`, {
       firstName: this.firstName,
       subject: subject,
       url: this.url,
