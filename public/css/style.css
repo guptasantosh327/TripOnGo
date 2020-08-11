@@ -914,6 +914,27 @@ body {
   cursor: pointer;
   font-family: inherit;
 }
+.nav__tp,
+.nav__tp:link,
+.nav__tp:visited {
+  color: #f7f7f7;
+  text-transform: uppercase;
+  font-size: 1.6rem;
+  text-decoration: none;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  font-weight: 400;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
 .nav__el:hover,
 .nav__el:active {
   -webkit-transform: translateY(-2px);
@@ -929,6 +950,30 @@ body {
     margin-bottom: 1.2rem;
   }
 }
+@media only screen and (max-width: 768px) {
+  .nav__el,
+  .nav__el:link,
+  .nav__el:visited {
+    color: black;
+    text-transform: uppercase;
+    font-size: 1.6rem;
+    text-decoration: none;
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-transition: all 0.2s;
+    transition: all 0.2s;
+    font-weight: 400;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+}
+
 .nav__el:focus {
   outline: none;
 }
