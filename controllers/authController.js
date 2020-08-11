@@ -7,7 +7,7 @@ const catchAsync = require('../utils/catchAsync');
 const Email = require('../utils/email');
 
 const signToken = (id) => {
-  return jwt.sign({ id: id }, process.env.JWT_SECRET, {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES,
   });
 };
@@ -20,9 +20,9 @@ const createSendToken = (user, statusCode, res) => {
     ),
     httpOnly: true,
   };
-  if (process.env.NODE_ENV === 'production') {
-    cookiesOptions.secure = true;
-  }
+  // if (process.env.NODE_ENV === 'production') {
+  //   cookiesOptions.secure = true;
+  // }
   user.password = undefined;
   res.cookie('jwt', token, cookiesOptions);
   res.status(statusCode).json({
@@ -115,14 +115,14 @@ exports.isLoggedIn = async (req, res, next) => {
 
       //checking if user still exits in db or not becaus may be account was deleted after issueing token
       const currentUser = await User.findById(decoded.id);
-      // if (!currentUser) {
-      //   return next();
-      // }
+      if (!currentUser) {
+        return next();
+      }
 
       // //checking if password does not change in while it expiration is still valid
-      // if (currentUser.isPasswordChanged(decoded.iat)) {
-      //   return next();
-      // }
+      if (currentUser.isPasswordChanged(decoded.iat)) {
+        return next();
+      }
 
       /// below line is used to send user data in header.pug for traansition
       res.locals.user = currentUser;

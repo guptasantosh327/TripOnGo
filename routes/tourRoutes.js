@@ -25,6 +25,7 @@ router
     authController.restrictTo('admin', 'lead-guide'),
     tourController.getMostnumTours
   );
+//ROOT ROUTE
 router
   .route('/')
   .get(tourController.getAllTours)
