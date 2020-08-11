@@ -8,9 +8,8 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
-//Express starts from here
+const cors = require('cors');
 
-const app = express();
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const tourRoute = require('./routes/tourRoutes');
@@ -19,10 +18,18 @@ const reviewRoute = require('./routes/reviewRoutes');
 const bookingRoute = require('./routes/bookingRoutes');
 const viewRoute = require('./routes/viewRoutes');
 
+//Express starts from here
+
+const app = express();
+// To enbale proxy trsut in production mode
+app.enable('trust proxy');
+
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // 1) MIDDLEWARE
+app.use(cors());
+app.options('*', cors());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(helmet());
 
