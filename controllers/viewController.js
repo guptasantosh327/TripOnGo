@@ -46,6 +46,19 @@ exports.getAccount = (req, res) => {
   });
 };
 
+exports.forgotPassword = (req, res, next) => {
+  res.status(200).render('forgotpassword', {
+    title: 'Forgot Password',
+  });
+};
+exports.resetPassword = (req, res) => {
+  const { token } = req.params;
+  res.status(200).render('resetpassword', {
+    title: 'Reset password',
+    token,
+  });
+};
+
 exports.getMyTours = catchAsync(async (req, res, next) => {
   const userId = req.user.id;
   const bookings = await Booking.find({ user: userId });

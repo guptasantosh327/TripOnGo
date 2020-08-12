@@ -6,11 +6,15 @@ import { displayMap } from './mapbox';
 import { updateSettings } from './updateSettings';
 import { signup } from './signup';
 import { bookTour } from './stripe';
+import { forgotPassword, resetPassword } from './passwordSettings';
 //DOM Element
 const mapBox = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
 const signForm = document.querySelector('.form--signup');
 const logOutBtn = document.querySelector('.nav__el--logout');
+const forgotbtn = document.querySelector('.form--forgotpassword');
+// const resetForm = document.querySelector('.form--resetpassword');
+const resetBtn = document.getElementById('reset-token');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 // const bookBtn = document.getElementById('book-tour');
@@ -39,18 +43,42 @@ if (signForm) {
     signup({ name, email, password, passwordConfirm });
   });
 }
+
+if (forgotbtn) {
+  forgotbtn.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    document.querySelector('.btn-forgotpassword').textContent = 'sending....';
+    const email = document.getElementById('email').value;
+    // console.log(email);
+    await forgotPassword(email);
+    document.querySelector('.btn-forgotpassword').textContent = 'submit';
+  });
+}
+if (resetBtn) {
+  resetBtn.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    document.querySelector('.btn-resetpassword').textContent = 'resetting....';
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('passwordConfirm').value;
+    const token = e.target.dataset.token;
+    // console.log(password, passwordConfirm, token);
+    await resetPassword(password, passwordConfirm, token);
+    document.querySelector('.btn-resetpassword ').textContent = 'submit';
+  });
+}
+
 if (logOutBtn) logOutBtn.addEventListener('click', logout);
 
 if (userDataForm)
-  userDataForm.addEventListener('submit', (e) => {
+  userDataForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    document.querySelector('.btn-save-settings').textContent = 'Updating....';
+    document.querySelector('.btn-save-settings').textContent = 'updating....';
     const form = new FormData();
     form.append('name', document.getElementById('name').value);
     form.append('email', document.getElementById('email').value);
     form.append('photo', document.getElementById('photo').files[0]);
-    updateSettings(form, 'data');
-    document.querySelector('.btn-save-settings').textContent = 'save settings';
+    await updateSettings(form, 'data');
+    document.querySelector('.btn-save-settings').textContent = 'submit';
   });
 
 if (userPasswordForm)

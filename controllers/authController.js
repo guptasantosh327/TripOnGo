@@ -153,9 +153,12 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   const resetToken = user.createPasswordResetToken();
   await user.save({ validateBeforeSave: false });
 
+  // const resetURL = `${req.protocol}://${req.get(
+  //   'host'
+  // )}/api/v1/users/resetpassword/${resetToken}`;
   const resetURL = `${req.protocol}://${req.get(
     'host'
-  )}/api/v1/users/resetpassword/${resetToken}`;
+  )}/resetpassword/${resetToken}`;
 
   try {
     await new Email(user, resetURL).sendResetMail();
@@ -172,6 +175,9 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
       new AppError('There was error sending the email! Please try again', 500)
     );
   }
+
+  req.params.token = resetToken;
+  // res.locals.token = resetToken;
 });
 
 exports.resetPassword = catchAsync(async (req, res, next) => {

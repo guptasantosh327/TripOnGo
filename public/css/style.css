@@ -935,6 +935,28 @@ body {
   cursor: pointer;
   font-family: inherit;
 }
+.nav__el--red,
+.nav__el--red:link,
+.nav__el--red:visited {
+  color: #df5151;
+  text-transform: uppercase;
+  font-size: 1.6rem;
+  text-decoration: none;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  font-weight: 400;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  margin-left: 30px;
+}
 .nav__el:hover,
 .nav__el:active {
   -webkit-transform: translateY(-2px);
