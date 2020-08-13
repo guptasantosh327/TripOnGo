@@ -12,9 +12,9 @@ block content
         .user-view
             nav.user-view__menu
                 ul.side-nav
-                    +navItems('#','settings','Settings',true)
+                    +navItems('/me','settings','Settings',true)
                     +navItems('/my-tours','briefcase','My booking')
-                    +navItems('#','star','My reviews')
+                    +navItems('/my-reviews','star','My reviews')
                     +navItems('#','credit-card','Billing')
 
                 -if(user.role ==='admin')

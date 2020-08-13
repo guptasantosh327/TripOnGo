@@ -16,6 +16,7 @@ export const forgotPassword = async (email) => {
       showAlert('success', 'password reset email is sent! Please hurry up ');
     }
   } catch (err) {
+    console.log(err)
     showAlert('error', err.response.data.message);
   }
 };

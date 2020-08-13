@@ -3,55 +3,61 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 
-const userSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: [true, 'Please provide your name'],
-    trim: true,
-    maxlength: [20, 'A user must have atmost 10 charachater'],
-    minlength: [3, 'A user must have atleast 3 charachater'],
-  },
-  email: {
-    type: String,
-    required: [true, 'Please provide your email ID'],
-    unique: true,
-    validate: [validator.isEmail, 'Please enter valid email!'],
-  },
-  photo: {
-    type: String,
-    default: 'default.jpg',
-  },
-  role: {
-    type: String,
-    enum: ['admin', 'lead-guide', 'guide', 'user'],
-    default: 'user',
-  },
-  password: {
-    type: String,
-    minlength: [8, 'Please enter 8 charcater atleast'],
-    required: [true, 'Please provide a password'],
-    select: false,
-  },
-  passwordChangedAt: Date,
-  passwordConfirm: {
-    type: String,
-    required: [true, 'Please confirm your password'],
-    validate: {
-      //its work only during create() and save()
-      validator: function (el) {
-        return el === this.password;
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, 'Please provide your name'],
+      trim: true,
+      maxlength: [20, 'A user must have atmost 10 charachater'],
+      minlength: [3, 'A user must have atleast 3 charachater'],
+    },
+    email: {
+      type: String,
+      required: [true, 'Please provide your email ID'],
+      unique: true,
+      validate: [validator.isEmail, 'Please enter valid email!'],
+    },
+    photo: {
+      type: String,
+      default: 'default.jpg',
+    },
+    role: {
+      type: String,
+      enum: ['admin', 'lead-guide', 'guide', 'user'],
+      default: 'user',
+    },
+    password: {
+      type: String,
+      minlength: [8, 'Please enter 8 charcater atleast'],
+      required: [true, 'Please provide a password'],
+      select: false,
+    },
+    passwordChangedAt: Date,
+    passwordConfirm: {
+      type: String,
+      required: [true, 'Please confirm your password'],
+      validate: {
+        //its work only during create() and save()
+        validator: function (el) {
+          return el === this.password;
+        },
+        message: 'Password is not same ! try again',
       },
-      message: 'Password is not same ! try again',
+    },
+    passwordResetToken: String,
+    passwordRestTokenExpire: Date,
+    active: {
+      type: Boolean,
+      default: true,
+      select: false,
     },
   },
-  passwordResetToken: String,
-  passwordRestTokenExpire: Date,
-  active: {
-    type: Boolean,
-    default: true,
-    select: false,
-  },
-});
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
+);
 
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
@@ -71,6 +77,11 @@ userSchema.pre(/^find/, function (next) {
   next();
 });
 
+userSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'user',
+  localField: '_id',
+});
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword

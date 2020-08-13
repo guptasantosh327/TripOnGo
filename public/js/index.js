@@ -25,22 +25,26 @@ if (mapBox) {
   displayMap(locations);
 }
 if (loginForm) {
-  loginForm.addEventListener('submit', (e) => {
+  loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    document.querySelector('.btn--login ').textContent = 'Logging....';
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
-    login(email, password);
+    await login(email, password);
+    document.querySelector('.btn--login').textContent = 'submit';
   });
 }
 
 if (signForm) {
-  signForm.addEventListener('submit', (e) => {
+  signForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    document.querySelector('.btn--signup ').textContent = 'Sign up....';
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const passwordConfirm = document.getElementById('passwordConfirm').value;
-    signup({ name, email, password, passwordConfirm });
+    await signup({ name, email, password, passwordConfirm });
+    document.querySelector('.btn--signup').textContent = 'submit';
   });
 }
 

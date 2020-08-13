@@ -599,6 +599,10 @@ body {
   );
 }
 
+.section--margin {
+  margin-top: 1px;
+}
+
 .reviews {
   padding: 5rem 0;
   display: grid;
